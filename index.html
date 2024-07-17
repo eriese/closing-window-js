@@ -7,9 +7,26 @@
 	<link rel="stylesheet" href="assets/index.css">
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 	<script src="assets/cell.js"></script>
+	<script src="assets/board.js"></script>
+	<script src="assets/player.js"></script>
 	<script src="assets/index.js"></script>
 </head>
 <body>
-<div></div>
+<div class="content">
+	<div class="board game-state pre-game">
+		<div>Use the arrow keys to reach your goals.</div>
+		<div>Try to get 10 goals before the window closes...</div>
+		<div>Press an arrow key to start</div>
+	</div>
+	<div class="board game-state post-game hidden">
+		<div>Looks like you didn't plan well enough</div>
+		<div>Press an arrow key to try again</div>
+	</div>
+	<div class="board-container hidden"></div>
+	<div class="expo hidden">
+		<div class="scoreboard"></div>
+		<div class="marquee">Press SPACE to give up.</div>
+	</div>
+</div>
 </body>
 </html>

@@ -15,4 +15,15 @@ class Cell {
 	get isAvailable() {
 		return !this.visited && !this.hasPlayer
 	}
+
+	clear() {
+		this.visited = false
+		this.hasGoal = false
+		this.hasPlayer = false
+	}
+
+	visit() {
+		this.clear()
+		this.visited = true
+	}
 }

@@ -1,11 +1,68 @@
+body {
+	--bg: #fdfdf3;
+	--board: #90bbda;
+	--goal: #23897b;
+	--player: #453e84;
+	--square: min(80vh, 80vw);
+	background-color: var(--bg);
+	text-align: center;
+	font-family: monospace;
+}
+.content {
+	width: min-content;
+	margin: 0 auto;
+}
+
+.game-state {
+	background-color: var(--board);
+	justify-content: center;
+	font-size: 1.5rem;
+	padding: 2rem;
+	box-sizing: border-box;
+	gap: 1rem;
+}
+.marquee {
+	font-size: 1.5rem;
+	margin-top: 1rem;
+	color: var(--player);
+}
+
+.scoreboard {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	text-align: center;
+	font-size: 1.5rem;
+	justify-content: space-between;
+}
+
+.scoreboard > div {
+	border-bottom: 0.5rem solid;
+}
+
+.scoreboard	.level {
+	border-color: var(--board);
+}
+
+.scoreboard .moveCount {
+	border-color: var(--player);
+}
+
+.scoreboard .goalCount {
+	border-color: var(--goal);
+}
+
+.board.hidden, .hidden {
+	display: none;
+}
+
 .board {
-/*	background: black;*/
-/*	color: white;*/
-	height: min(90vw, 90vh);
-	width: min(90vw, 90vh);
+	height: var(--square);
+	width: var(--square);
 	border-spacing: 0;
 	display: flex;
 	flex-direction: column;
+	margin: 0 auto;
 }
 
 .board tr {
@@ -15,23 +72,23 @@
 
 .board td	{
 	display: block;
-	background: black;
-	border: 1px solid lightgray;
+	background: var(--board);
+	border: 1px solid var(--bg);
 /*	border-radius: 50%;*/
 	box-sizing: border-box;
 	flex: 1;
 }
 
 .board td.visited {
-	background: white;
+	background: transparent;
 	border-color: transparent;
 }
 
 .board td.with-player {
-	background: blue;
+	background: var(--player);
 	border-radius: 50%;
 }
 
 .board td.with-goal {
-	background: green;
+	background: var(--goal);
 }
