@@ -14,18 +14,25 @@
 <body>
 <div class="content">
 	<div class="board game-state pre-game">
-		<div>Use the arrow keys to reach your goals.</div>
+		<div>Use the buttons or arrow keys to reach your goals.</div>
 		<div>Try to get 10 goals before the window closes...</div>
-		<div>Press an arrow key to start</div>
+		<button class="btn" role="button">Begin</button>
 	</div>
 	<div class="board game-state post-game hidden">
 		<div>Looks like you didn't plan well enough</div>
-		<div>Press an arrow key to try again</div>
+		<button class="btn" role="button">Try Again</button>
 	</div>
 	<div class="board-container hidden"></div>
 	<div class="expo hidden">
 		<div class="scoreboard"></div>
-		<div class="marquee">Press SPACE to give up.</div>
+		<details>
+			<summary>Buttons</summary>
+			<button class="btn ctrl" aria-label="Go Left" arrow-type="Left"><span class="arrow"></span></button>
+			<button class="btn ctrl" aria-label="Go Up" arrow-type="Up"><span class="arrow"></span></button>
+			<button class="btn ctrl" aria-label="Go Down" arrow-type="Down"><span class="arrow"></span></button>
+			<button class="btn ctrl" aria-label="Go Right" arrow-type="Right"><span class="arrow"></span></button>
+		</details>
+		<button class="btn quit" role="button">Give Up</button>
 	</div>
 </div>
 </body>

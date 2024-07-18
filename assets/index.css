@@ -13,6 +13,18 @@ body {
 	margin: 0 auto;
 }
 
+.btn {
+	appearance: none;
+  background-color: var(--player);
+  color: var(--bg);
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  font-family: monospace;
+  font-weight: bold;
+  letter-spacing: 0.0625rem;
+  border: none;
+}
+
 .game-state {
 	background-color: var(--board);
 	justify-content: center;
@@ -20,11 +32,6 @@ body {
 	padding: 2rem;
 	box-sizing: border-box;
 	gap: 1rem;
-}
-.marquee {
-	font-size: 1.5rem;
-	margin-top: 1rem;
-	color: var(--player);
 }
 
 .scoreboard {
@@ -50,6 +57,35 @@ body {
 
 .scoreboard .goalCount {
 	border-color: var(--goal);
+}
+
+.quit {
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.arrow {
+	display: block;
+	border-top: 4px solid currentColor;
+	border-left: 4px solid currentColor;
+	width: 1rem;
+	height: 1rem;
+}
+
+[arrow-type=Left] .arrow {
+	transform: rotate(-45deg) translate(0.25rem, 0.25rem);
+}
+
+[arrow-type=Up] .arrow {
+	transform: rotate(45deg) translate(0.25rem, 0.25rem);
+}
+
+[arrow-type=Right] .arrow {
+	transform: rotate(135deg) translate(0.25rem, 0.25rem);
+}
+
+[arrow-type=Down] .arrow {
+	transform: rotate(-135deg) translate(0.25rem, 0.25rem);
 }
 
 .board.hidden, .hidden {
