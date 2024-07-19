@@ -11,13 +11,30 @@ function is_touch_enabled() {
 	( navigator.msMaxTouchPoints > 0 );
 }
 
+const counterUrl = "https://simple-counter-eriese-erieses-projects.vercel.app/count?source=Closing Window";
+const fetchOpts = {
+  method: "PUT",
+  headers: {
+  	Authorization: 'Basic ZW5vY2g6anVzdEFkZGluZ1RvVGhlUGlsZQ==' // semi insecure, but this server is basically just a counting engine and it validates the origin
+  }
+}
 window.onload = () => {
+if (!localStorage.getItem('cw-visited')) {
+  fetch(counterUrl + '&name=Unique Visitors', fetchOpts).then(r => {
+  	if (r.status === 200) {
+  		localStorage.setItem('cw-visited', true)
+  	}
+  }).catch(e => console.log(e)) // don't care much about the error
+}
+
 d3.selectAll('.game-state .btn')
 	.on('click', e => {
 		e.preventDefault();
 		state = 1;
 		d3.selectAll('.game-state').classed('hidden', true)
-			board.show()
+		board.show()
+		fetch(counterUrl + '&name=Game Plays', fetchOpts
+	  ).catch(e => console.log(e))
 	})
 
 d3.select('.expo .quit')
