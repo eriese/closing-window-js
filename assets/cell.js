@@ -5,6 +5,7 @@ class Cell {
 	hasGoal
 
 	constructor(row, column) {
+		this.id = `${row}${column}`
 		this.row = row
 		this.column = column
 		this.visited = false
@@ -20,10 +21,18 @@ class Cell {
 		this.visited = false
 		this.hasGoal = false
 		this.hasPlayer = false
+		return this
 	}
 
 	visit() {
-		this.clear()
+		this.hasGoal = false
 		this.visited = true
+		this.hasPlayer = true
+		return this
+	}
+
+	leave() {
+		this.hasPlayer = false
+		return this
 	}
 }

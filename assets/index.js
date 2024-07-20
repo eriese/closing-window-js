@@ -5,19 +5,21 @@ let state = 0, 	// current game state
 	highMove = 0, // best move count
 	highLevel = 0 // best level reached
 
-function is_touch_enabled() {
-	return ( 'ontouchstart' in window ) ||
-	( navigator.maxTouchPoints > 0 ) ||
-	( navigator.msMaxTouchPoints > 0 );
-}
+// function is_touch_enabled() {
+// 	return ( 'ontouchstart' in window ) ||
+// 	( navigator.maxTouchPoints > 0 ) ||
+// 	( navigator.msMaxTouchPoints > 0 );
+// }
 
-const counterUrl = "https://simple-counter-eriese-erieses-projects.vercel.app/count?source=Closing Window";
+const counterUrl = 'https://simple-counter-eriese-erieses-projects.vercel.app/count?source=Closing Window';
+const counterKey = 'ZW5vY2g6anVzdEFkZGluZ1RvVGhlUGlsZQ=='// semi insecure, but this server is basically just an endpoint for a database with one table that stores counts
 const fetchOpts = {
-  method: "PUT",
+  method: 'PUT',
   headers: {
-  	Authorization: 'Basic ZW5vY2g6anVzdEFkZGluZ1RvVGhlUGlsZQ==' // semi insecure, but this server is basically just a counting engine and it validates the origin
+  	Authorization: `Basic ${counterKey}`
   }
 }
+
 window.onload = () => {
 if (!localStorage.getItem('cw-visited')) {
   fetch(counterUrl + '&name=Unique Visitors', fetchOpts).then(r => {

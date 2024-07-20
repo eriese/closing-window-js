@@ -131,23 +131,69 @@ summary {
 
 .board td	{
 	display: block;
-	background: var(--board);
 	border: 1px solid var(--bg);
 /*	border-radius: 50%;*/
 	box-sizing: border-box;
 	flex: 1;
+	padding: 0;
+	position: relative;
 }
 
-.board td.visited {
-	background: transparent;
-	border-color: transparent;
+.board td > span.box {
+	display: block;
+	height: 100%;
+	width: 100%;
+	background: var(--board);
+	position: absolute;
+	transition-property: width, height;
+	transition-duration: 5s;
+	bottom: 0;
+	right: 0;
 }
 
-.board td.with-player {
+.board td.visited > span.box {
+	width: 0;
+}
+
+.board td.visited.anchor-left > span.box, .board td.visited.anchor-right > span.box {
+	height: 100%;
+}
+
+.board td.visited.anchor-left > span.box {
+	left: 0;
+}
+
+.board td.visited.anchor-up > span.box, .board td.visited.anchor-down > span.box {
+	height: 0px;
+	transition-property: height;
+	width: 100%;
+}
+
+.board td.visited.anchor-up > span.box {
+	top: 0;
+}
+
+.board td.visited.util > span.box {
+	transition-duration: 0s;
+	height: 100%;
+	width: 0;
+}
+
+.board td > span.player {
+
 	background: var(--player);
 	border-radius: 50%;
+	position: absolute;
+	width: 95%;
+	height: 95%;
+	z-index: 1;
+	top: 2.5%;
+	left: 2.5%;
+/*	transition: border-radius;*/
+/*	transition-duration: 0.15s;*/
+/*	border-color: transparent;*/
 }
 
-.board td.with-goal {
+.board td.with-goal > span.box {
 	background: var(--goal);
 }

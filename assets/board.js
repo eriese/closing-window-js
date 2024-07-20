@@ -5,6 +5,26 @@ const readable = {
 	moveCount: "Moves",
 	goalCount: 'Goals'
 }
+
+function transitionInOut(selection, duration, toStyle) {
+	return selection.transition()
+		.duration(duration)
+		.style('transform', toStyle)
+	.transition()
+		.duration(duration)
+		.style('transform', '')
+}
+
+function blink(selection, total = 2, count = 0) {
+	return transitionInOut(selection, 150, 'scale(1.1)')
+	.on('end', () => {
+		if (total >= count) {
+			count++
+			blink(selection, total, count)
+		}
+	})
+}
+
 class Board {
 	currentGoals = []
 	level = 1
@@ -38,6 +58,8 @@ class Board {
 		  .data(r => r)
 		  .join('td')
 
+		this.boardCells.append('span').classed('box', true)
+
 		this.scoreboard = d3.select('.scoreboard')
 			.selectAll('div')
 			.data(this.stats)
@@ -51,10 +73,10 @@ class Board {
 	setupLevel() {
 		const level = this.level
 		this.goalCount = 0
-
 		const lowerlimit = level - 1
 		const upperlimit = colsAndRows - level
 		// reset all the squares according to the level
+		d3.selectAll('.visited').classed('util', true).classed('anchor-down anchor-up', false)
 		this.cells.forEach((row) => {
 			row.forEach((cell) => {
 				cell.clear()
@@ -64,12 +86,14 @@ class Board {
 				}
 
 				if (cell.row === lowerlimit && cell.column === lowerlimit) {
-					this.playerCell = cell
-					cell.hasPlayer = true
+					this.playerCell?.leave()
+					this.playerCell = cell.visit()
+					this.placePlayer()
 				}
 			})
 		})
 
+		// this.boardCells.classed('anchor-down anchor-up util', false)
 		this.setGoals()
 	}
 
@@ -84,6 +108,9 @@ class Board {
 			cell.hasGoal = true;
 			this.currentGoals.push(cell)
 		}
+
+		this.update()
+		blink(d3.selectAll('.with-goal'))
 	}
 
 	reachGoal() {
@@ -97,9 +124,9 @@ class Board {
 	}
 
 	update() {
-		this.boardCells.classed('visited', c => c.visited)
+		this.boardCells
+		.classed('visited', c => c.visited)
 		.classed('with-goal', c => c.hasGoal)
-		.classed('with-player', c => c.hasPlayer)
 
 		this.scoreboard.text(s => `${readable[s]}: ${this[s]}`)
 	}
@@ -107,32 +134,60 @@ class Board {
 	movePlayer(key) {
 		let nextRow = this.playerCell.row
 		let nextCol = this.playerCell.column
+		let anchor = key.replace('Arrow','').toLowerCase()
+		let translateX = 0
+		let translateY = 0
 
 		switch (key) {
 		case 'ArrowRight':
 			nextCol++;
+			translateX = 1;
 			break;
 		case 'ArrowLeft':
 			nextCol--;
+			translateX = -1
 			break;
 		case 'ArrowUp':
 			nextRow--;
+			translateY = -1
 			break;
 		case 'ArrowDown':
 			nextRow++;
+			translateY = 1
 		}
 
 		const nextCell = this.cells[nextRow]?.[nextCol]
+		const playerNode = this.player.node()
+		const moveSize = playerNode.clientWidth * (nextCell?.isAvailable ? -1 : 0.3)
+		const translation = `translate(${translateX * moveSize}px, ${translateY * moveSize}px)`
+
 		if (nextCell?.isAvailable) {
-			this.playerCell.visit()
-			this.playerCell = nextCell
-			nextCell.hasPlayer = true
+			const hadGoal = nextCell.hasGoal
+			this.playerCell.leave()
+			this.playerCell = nextCell.visit()
 			this.moveCount++
+			this.placePlayer(translation, anchor)
+			hadGoal && this.reachGoal()
+			this.update()
+		} else {
+			transitionInOut(this.player, 250, translation)
 		}
+	}
 
-		nextCell?.hasGoal && this.reachGoal()
+	placePlayer(translation = '', anchor='left') {
+		const playerCellRef = this.boardCells.filter(d => d === this.playerCell)
+		this.player?.remove()
 
-		this.update()
+		this.player = playerCellRef.append('span')
+			.classed('player', true)
+			.style('transform', translation)
+
+
+		playerCellRef.classed(`anchor-${anchor}`, true)
+		this.player.transition()
+			.duration(150)
+			.ease(d3.easeQuadOut)
+			.style('transform','')
 	}
 
 	reset() {
@@ -151,6 +206,4 @@ class Board {
 		d3.selectAll('.board-container, .expo').classed('hidden', false)
 	}
 
-	startScreen() {
-	}
 }
