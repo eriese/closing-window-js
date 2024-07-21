@@ -35,4 +35,25 @@ class Cell {
 		this.hasPlayer = false
 		return this
 	}
+
+	proximity(otherCell) {
+		if (this.row === otherCell.row) {
+			if (this.column === otherCell.column + 1) {
+				return 'from-right'
+			}
+			if (this.column === otherCell.column - 1) {
+				return 'from-left'
+			}
+		}
+
+		if (this.column === otherCell.column) {
+			if (this.row === otherCell.row + 1) {
+				return 'from-down'
+			}
+
+			if (this.row === otherCell.row - 1) {
+				return 'from-up'
+			}
+		}
+	}
 }

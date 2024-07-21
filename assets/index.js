@@ -45,7 +45,6 @@ d3.select('.expo .quit')
 		state = 2;
 		board.hide()
 		d3.select('.post-game').classed('hidden', false)
-		board.reset()
 		state++
 	})
 
